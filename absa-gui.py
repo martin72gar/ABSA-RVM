@@ -9,6 +9,6 @@ Created on Fri Oct  4 14:47:42 2019
 #GUI test
 from tkinter import *
 root = Tk()
-theLabel = Label(root, text="HALO DUNIA")
+theLabel = Label(root, text="HALO DUNIA, are you okay ?")
 theLabel.pack()
 root.mainloop()

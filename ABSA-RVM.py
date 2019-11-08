@@ -4,11 +4,17 @@ Created on Thu Sep 26 23:20:53 2019
 
 @author: Martin
 """
-#open file    
-f = open("D:/Python/ABSA-RVM/Dataset/train_data.csv","r")
-if f.mode == 'r':
-    reviews = f.read()
-f.close()
+# Relevance Vector Machine (SVM)
+
+# Importing the libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Importing the dataset
+dataset = pd.read_csv('D:/Python/ABSA-RVM/Dataset/train_data.csv')
+X = dataset.iloc[:, [2, 3]].values
+y = dataset.iloc[:, 4].values
 
 #PREPROSESSING
 #tokenisasi, lowercase, filtering                                        <---
@@ -39,7 +45,7 @@ def word_normalization(text):
 		return text
 
 #splitting data training menjadi token per-review berdasarkan \n
-s_reviews = reviews.split("\n")
+s_reviews = data_review.split("\n")
 wordss = [] #variabel penampung hasil casefolding(lower) dan filtering
 for r in s_reviews:
     #token setiap kata pada setiap baris review
@@ -54,10 +60,10 @@ for r in s_reviews:
 
 
 
-    
-    
 
-#pembobotan TF-I
+
+
+# Pembobotan TF-IDF
 
 
 

@@ -12,8 +12,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Import Dataset
-dataset_review = pd.read_csv('D:/Python/ABSA-RVM/Dataset/train_data.csv',encoding = "ISO-8859-1")
-
+data_review = pd.read_csv('D:/Python/ABSA-RVM/Dataset/train_data_500.csv', sep=";", encoding="ISO-8859-1")
+data_review = data_review[0:1]
+data_review
 # Cleaning kolom review pada dataset
 import re
 import nltk
@@ -21,8 +22,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 corpus = []
-for i in range(0, 84):
-    review = re.sub('[^a-zA-Z]', ' ', dataset_review['review'][i])
+for i in range(len(data_review)):
+    review = re.sub('[^a-zA-Z]', ' ', data_review['review'][i])
     review = review.lower()
     review = review.split()
     ps = PorterStemmer()
@@ -30,12 +31,13 @@ for i in range(0, 84):
     review = ' '.join(review)
     corpus.append(review)
 
+corpus
 # Creating the Bag of Words model
 from sklearn.feature_extraction.text import CountVectorizer
 cv = CountVectorizer(max_features = 1500)
 X = cv.fit_transform(corpus).toarray()
-y = dataset_review.iloc[0:84, 1].values
-
+y = data_review.iloc[0:len(data_review), 1].values
+y
 # Splitting the dataset into the Training set and Test set
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 0)
@@ -47,6 +49,11 @@ classifier.fit(X_train, y_train)
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
+
+y_pred
+X_test
+
+X_train
 
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix

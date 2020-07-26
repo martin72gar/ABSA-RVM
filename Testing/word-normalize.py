@@ -6,7 +6,7 @@ Created on Sat Oct  5 16:14:38 2019
 """
 
 import re
-import modSpellchecker as sc
+from Testing import modSpellchecker as sc
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 character = ['.',',',';',':','-,','...','?','!',

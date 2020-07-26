@@ -5,7 +5,7 @@ Created on Thu Sep 26 23:20:53 2019
 @author: Martin
 """
 #open file    
-f = open("D:/Python/ABSA-RVM/Dataset/train_data.csv","r")
+f = open("Dataset/train_data.csv","r")
 if f.mode == 'r':
     reviews = f.read()
 f.close()

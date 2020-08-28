@@ -68,3 +68,37 @@
 # Model Pengklasifikasi
 
 #
+
+
+"""
+Xtf = tf.fit_transform(corpus) // Xtf = tf.fit_transform(corpus).toarray
+
+from sklearn.feature_extraction.text import TfidfTransformer
+tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
+X_train_tf = tf_transformer.transform(X_train_counts)
+
+from sklearn.feature_extraction.text import TfidfTransformer
+tf_idf = Tfidftransformer()
+
+listToStr = ' '.join([str(elem) for elem in corpus[0:3]]
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+>>> sample = [
+...     'This is the first document.',
+...     'This document is the second document.',
+...     'And this is the third one.',
+...     'Is this the first document?',
+... ]
+>>> vectorizer = TfidfVectorizer()
+>>> X = vectorizer.fit_transform(sample)
+print(vectorizer.get_feature_names())
+['and', 'document', 'first', 'is', 'one', 'second', 'the', 'third', 'this']
+>>> print(X.shape)
+
+"""
+
+"""from sklearn.feature_extraction.text import CountVectorizer
+cv = CountVectorizer(max_features=1500)
+X = cv.fit_transform(corpus).toarray()
+y = data_review.iloc[0:len(data_review), 1].values
+"""

@@ -19,9 +19,9 @@ from nltk.stem.porter import PorterStemmer
 
 # Import Dataset
 data_review = pd.read_csv('Dataset/train_data.csv', sep=";", encoding="ISO-8859-1")
-data_review = data_review[0:50]
+data_review = data_review[0:200]
 
-# Cleaning kolom review pada dataset
+# Preprosesing
 corpus = []
 for i in range(len(data_review)):
     review = re.sub('[^a-zA-Z]', ' ', data_review['review'][i])
@@ -32,50 +32,42 @@ for i in range(len(data_review)):
     review = ' '.join(review)
     corpus.append(review)
 
-# Creating the Bag of Words model
-
-"""from sklearn.feature_extraction.text import CountVectorizer
-cv = CountVectorizer(max_features=1500)
-X = cv.fit_transform(corpus).toarray()
-y = data_review.iloc[0:len(data_review), 1].values
-"""
-
-
+# Pembobotan TFIDF
 from sklearn.feature_extraction.text import TfidfVectorizer
-tf = TfidfVectorizer(max_features=1500)
+tf = TfidfVectorizer(max_features=500)
 X = tf.fit_transform(corpus).toarray()
-y = data_review.iloc[0:len(data_review), 1].values
+#ambil nilai target food
+''' Target Negative(0) vs All(Positive(1) dan Netral(1))'''
+yfood1 = data_review.iloc[0:len(data_review), 1].values
+for i in range(len(yfood1)):
+    if (yfood1[i] == 'negative'):
+        yfood1[i] = '0'
+    else:
+        yfood1[i] = '1'
 
+y = yfood1
+''' Target Positive(1) vs All(Negative(2) dan Netral(2))'''
+# yfood2 = data_review.iloc[0:len(data_review), 1].values
+# for i in range(len(yfood2)):
+#     if (yfood2[i] == 'positive'):
+#         yfood2[i] = '1'
+#     else:
+#         yfood2[i] = '2'
+#
+# y = yfood2
 
-"""
-Xtf = tf.fit_transform(corpus) // Xtf = tf.fit_transform(corpus).toarray
+''' Target Netral(2) vs All(Negative(0) dan Netral(0))'''
+# yfood3 = data_review.iloc[0:len(data_review), 1].values
+# for i in range(len(yfood3)):
+#     if (yfood3[i] != 'positive' and 'negative'):
+#         yfood3[i] = '2'
+#     else:
+#         yfood3[i] = '0'
+#
+# y = yfood3
 
-from sklearn.feature_extraction.text import TfidfTransformer
-tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
-X_train_tf = tf_transformer.transform(X_train_counts)
-
-from sklearn.feature_extraction.text import TfidfTransformer
-tf_idf = Tfidftransformer()
-
-listToStr = ' '.join([str(elem) for elem in corpus[0:3]]
-
-from sklearn.feature_extraction.text import TfidfVectorizer
->>> sample = [
-...     'This is the first document.',
-...     'This document is the second document.',
-...     'And this is the third one.',
-...     'Is this the first document?',
-... ]
->>> vectorizer = TfidfVectorizer()
->>> X = vectorizer.fit_transform(sample)
->>> print(vectorizer.get_feature_names())
-['and', 'document', 'first', 'is', 'one', 'second', 'the', 'third', 'this']
->>> print(X.shape)
-
-"""
 
 # Splitting the dataset into the Training set and Test set
-# from sklearn.cross_validation import train_test_split
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=0)
 
@@ -84,20 +76,21 @@ from skrvm import RVC
 classifier = RVC(verbose=True)
 classifier.fit(X_train, y_train)
 
-#simpan model hasil training
-# with open("analisisreview.pickle", "wb") as f:
-#     pickle.dump(classifier, f)
+# Simpan model hasil training
+with open("model200targetyfood1.pickle", "wb") as f:
+    pickle.dump(classifier, f)
 
 # LOAD MODEL
-pickle_in = open("analisisreview.pickle", "rb")
-linear = pickle.load(pickle_in)
+# pickle_in = open("model200targetyfood1.pickle", "rb")
+# classifier = pickle.load(pickle_in)
+
 
 # Predicting the Test set results
-y_pred = classifier.predict(X_test)
+y_predict = classifier.predict(X_test)
 
 # Making the Confusion Matrix
 from sklearn.metrics import confusion_matrix
-cm = confusion_matrix(y_test, y_pred)
+cm = confusion_matrix(y_test, y_predict)
 
-classifier.score(X_train,y_train)
+akurasi = classifier.score(X_train,y_train)
 

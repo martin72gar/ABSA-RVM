@@ -38,14 +38,9 @@ tf = TfidfVectorizer(max_features=500)
 X = tf.fit_transform(corpus).toarray()
 #ambil nilai target food
 ''' Target Negative(0) vs All(Positive(1) dan Netral(1))'''
-yfood1 = data_review.iloc[0:len(data_review), 1].values
-for i in range(len(yfood1)):
-    if (yfood1[i] == 'negative'):
-        yfood1[i] = '0'
-    else:
-        yfood1[i] = '1'
+yprice = data_review.iloc[0:len(data_review), 3].values
 
-y = yfood1
+y = yprice
 ''' Target Positive(1) vs All(Negative(2) dan Netral(2))'''
 # yfood2 = data_review.iloc[0:len(data_review), 1].values
 # for i in range(len(yfood2)):
@@ -77,11 +72,11 @@ classifier = RVC(verbose=True)
 classifier.fit(X_train, y_train)
 
 # Simpan model hasil training
-with open("model200targetyfood1.pickle", "wb") as f:
+with open("model200targetysprice.pickle", "wb") as f:
     pickle.dump(classifier, f)
 
 # LOAD MODEL
-# pickle_in = open("model200targetyfood1.pickle", "rb")
+# pickle_in = open("model200targetyservice.pickle", "rb")
 # classifier = pickle.load(pickle_in)
 
 
